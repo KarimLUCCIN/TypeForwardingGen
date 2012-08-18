@@ -66,7 +66,7 @@ namespace TypeForwardingGen
         public void Generate(StreamWriter dest_writer, string[] assemblyNames)
         {
             dest_writer.WriteLine("using System;");
-            dest_writer.WriteLine("using System.Runtime.CompilerService");
+            dest_writer.WriteLine("using System.Runtime.CompilerServices");
             dest_writer.WriteLine();
             dest_writer.WriteLine();
 
