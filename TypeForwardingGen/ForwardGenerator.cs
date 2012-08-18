@@ -27,7 +27,7 @@ namespace TypeForwardingGen
 
                 foreach (var assembly_type in assembly.GetTypes())
                 {
-                    if (!assembly_type.IsGenericType && assembly_type.IsPublic)
+                    if (assembly_type.IsPublic)
                     {
                         yield return assembly_type;
                     }
@@ -84,7 +84,18 @@ namespace TypeForwardingGen
 
             foreach (var asm_type in GetAllPublicTypes(assemblyNames))
             {
-                dest_writer.WriteLine(String.Format("[assembly:TypeForwardedToAttribute(typeof({0}))]", asm_type.FullName));
+                var type_name = asm_type.FullName;
+                if (asm_type.IsGenericType)
+                {
+                    type_name = asm_type.FullName.Substring(0, asm_type.FullName.IndexOf("`")) + "<";
+
+                    for (int i = 0; i < asm_type.GetGenericArguments().Length - 1; i++)
+                        type_name += ",";
+
+                    type_name += ">";
+                }
+
+                dest_writer.WriteLine(String.Format("[assembly:TypeForwardedToAttribute(typeof({0}))]", type_name));
             }
         }
     }
