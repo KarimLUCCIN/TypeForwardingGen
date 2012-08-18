@@ -27,7 +27,7 @@ namespace TypeForwardingGen
 
                 foreach (var assembly_type in assembly.GetTypes())
                 {
-                    if (assembly_type.IsPublic)
+                    if (!assembly_type.IsGenericType && assembly_type.IsPublic)
                     {
                         yield return assembly_type;
                     }
@@ -66,7 +66,7 @@ namespace TypeForwardingGen
         public void Generate(StreamWriter dest_writer, string[] assemblyNames)
         {
             dest_writer.WriteLine("using System;");
-            dest_writer.WriteLine("using System.Runtime.CompilerServices");
+            dest_writer.WriteLine("using System.Runtime.CompilerServices;");
             dest_writer.WriteLine();
             dest_writer.WriteLine();
 
